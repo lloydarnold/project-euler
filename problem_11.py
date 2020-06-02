@@ -1,18 +1,16 @@
-def multiply(list):
-    prod = 1
-    for char in list:
-        prod *= int(char)
-    return prod
-
 
 def read_grid():
     fEuler = open("res/prob_11_grid")
     grid = []
     for line in fEuler:
         tempLine = []
+        temp = ""
         for item in line[:-1]:
-            if item != " ":
-                tempLine.append(item)
+            if item == " ":
+                tempLine.append(int(temp))
+                temp = ""
+            else:
+                temp += item
         grid.append(tempLine)
     return grid
 
@@ -31,11 +29,9 @@ def horizontal_seq(grid, root=(0,0), runLength=4):
     product = 1
     for i in range(0, runLength):
         try:
-            print(grid[root[0] + i][root[1]])
             product *= grid[root[0] + i][root[1]]
         except Exception as e:
             return product
-    print(product)
     return product
 
 
@@ -81,8 +77,8 @@ def move_pointers(grid, runLength=4):
 
 def main():
     grid = read_grid()
-    print(grid)
     print(move_pointers(grid, 4))
+
 
 if __name__ == '__main__':
     main()
