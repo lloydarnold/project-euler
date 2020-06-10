@@ -13,8 +13,11 @@ eulerSolution :: Int
 eulerSolution = maximum' (map length (map collatz [1..1000000]))
 '''
 
+# max recursion depth is exceeded hmm
+# let's do it non recursive then ig
+
 def gen_map():
-    return [-1 for i in range(0,1000000) ]
+    return [0 for i in range(0,10000000) ]  # map is one OoM larger than max (just in case)
 
 
 def nCollatz(n):
@@ -24,23 +27,29 @@ def nCollatz(n):
         return 3*n +1
 
 
-def collatz(root, map, counter):
+def collatz(root, map):
+    counter = 0
     nextNum = nCollatz(root)
-    temp = map[nextNum]
-    if temp != -1:
-        return temp + counter
-    else:
-        return collatz(nextNum, map, counter+1)
+    thisSequence = [nextNum]
+    temp = 0
+    while temp  == 0 and thisSequence[-1] != 1:
+        counter += 1
+        thisSequence.append(nCollatz(thisSequence[-1]))
+        try : temp = map[thisSequence[-1]]
+        except : temp = 0
 
+    fVal = counter + map[thisSequence[-1]]
+    map[root] = fVal
+    return fVal
 
 def driver():
     map = gen_map()
-    max = 0
-    for i in range(0,len(map)):
-        temp = collatz(i, map, 0)
+    max = (0,0)
+    for i in range(1, 1000000):
+        temp = collatz(i, map)
         map[i] = temp
-        if temp > max : max = temp
-    return max
+        if temp > max[0] : max = (temp, i)
+    return max[1]
 
 
 def main():
