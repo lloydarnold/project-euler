@@ -12,6 +12,7 @@ def num_driver(num):
     x = ((num % 1000) - (y * 10) - z) // 100 # hundreds
     return x,y,z
 
+
 def num2word(num):
     strNum = ""
     a,b,c = num_driver(num)
@@ -26,11 +27,13 @@ def num2word(num):
 
     return strNum
 
+
 def get_sum():
     sum = 0
     for i in range(1,1000):
         sum += len(num2word(i))
     return sum + 11
+
 
 def main():
     print(get_sum())
