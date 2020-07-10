@@ -28,23 +28,16 @@ def treeToMatrix(rawTree):
 
 def compress(matrix):
     if len(matrix) == 1:
-        print(matrix)
+        print(matrix[0][0])
     else:
         for i, value in enumerate(matrix[-2]):
             if value == 0 : break
             value += max(matrix[-1][i], matrix[-1][i + 1] )
             matrix[-2][i] = value
-            
-        for line in matrix:
-            print(line)
-        print()
         matrix = compress(matrix[0:-1])
 
 def main():
     matrix = treeToMatrix(getTree())
-    for line in matrix:
-        print(line)
-
     compress(matrix)
 
 if __name__ == '__main__':
